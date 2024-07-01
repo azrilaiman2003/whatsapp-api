@@ -178,6 +178,26 @@ contactRouter.post('/unblock/:sessionId', [middleware.sessionNameValidation, mid
 contactRouter.post('/getFormattedNumber/:sessionId', [middleware.sessionNameValidation, middleware.sessionValidation], contactController.getFormattedNumber)
 contactRouter.post('/getCountryCode/:sessionId', [middleware.sessionNameValidation, middleware.sessionValidation], contactController.getCountryCode)
 contactRouter.post('/getProfilePicUrl/:sessionId', [middleware.sessionNameValidation, middleware.sessionValidation], contactController.getProfilePicUrl)
+// Assuming you have an express Router instance named `routes`
+routes.post('/webhook-receiver', async (req, res) => {
+  try {
+    const { dataType, data, sessionId } = req.body;
+
+    // Check if the dataType is 'message_create', the body is 'ping', and the sender is '601124371722@c.us'
+    if (dataType === 'message_create' && data.message.body === 'ping' &&
+        data.message.from === '601124371722@c.us') {
+      console.log('Ping received from', data.message.from);
+      res.status(200).json({ success: true, message: 'Ping received successfully' });
+    } else {
+      // If conditions are not met, do not process further
+      console.log('Webhook received but not processed:', dataType, data.message.body);
+      res.status(200).json({ success: false, message: 'Conditions not met' });
+    }
+  } catch (error) {
+    console.error('Error handling webhook:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
 /**
  * ================
  * SWAGGER ENDPOINTS

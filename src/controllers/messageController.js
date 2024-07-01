@@ -2,6 +2,31 @@ const { sessions } = require('../sessions')
 const { sendErrorResponse } = require('../utils')
 
 /**
+ * Automatically responds to messages from a specific sender.
+ * @async
+ * @function autoRespond
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+// const autoRespond = async (req, res) => {
+//   try {
+//     const { sessionId, message } = req.body;
+//     const client = sessions.get(sessionId);
+
+//     // Check if the message is from the specific sender
+//     if (message.from === '601124371722@c.us') {
+//       // Send a "pong" message back to the sender
+//       await client.sendMessage(message.from, 'pong');
+//       res.json({ success: true, message: 'Response sent' });
+//     } else {
+//       res.json({ success: true, message: 'No action taken' });
+//     }
+//   } catch (error) {
+//     sendErrorResponse(res, 500, error.message);
+//   }
+// };
+
+/**
  * Get message by its ID from a given chat using the provided client.
  * @async
  * @function
@@ -371,5 +396,6 @@ module.exports = {
   react,
   reply,
   star,
-  unstar
+  unstar,
+  // autoRespond
 }
